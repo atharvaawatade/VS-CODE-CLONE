@@ -19,7 +19,8 @@ export default defineConfig({
           'xterm': ['xterm', 'xterm-addon-fit', 'xterm-addon-web-links', 'xterm-addon-webgl']
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1600
   },
   server: {
     port: 3000
