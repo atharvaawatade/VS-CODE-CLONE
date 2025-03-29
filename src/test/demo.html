@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web IDE Demo</title>
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2ecc71;
+      --accent: #e74c3c;
+      --bg: #f8f9fa;
+      --text: #333;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 1.2rem;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .feature-card {
+      background-color: #f5f9ff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .feature-icon {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      color: #666;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Web IDE</h1>
+      <p class="subtitle">A powerful browser-based code editor</p>
+    </header>
+    
+    <main>
+      <p>
+        Try our interactive HTML preview feature! This page is being rendered using the built-in preview functionality. 
+        The Web IDE allows you to view your HTML files in real-time as you edit them.
+      </p>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🖥️</div>
+          <h3>Monaco Editor</h3>
+          <p>Powerful code editing with syntax highlighting, autocomplete, and more.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>Advanced Search</h3>
+          <p>Find anything in your codebase with regex support and filtering options.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>HTML Preview</h3>
+          <p>See your HTML, CSS, and JavaScript come to life in real-time.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Assistant</h3>
+          <p>Get coding help from our built-in Gemini-powered AI assistant.</p>
+        </div>
+      </div>
+      
+      <div id="interactive-demo" style="margin-top: 40px; text-align: center;">
+        <h2 style="margin-bottom: 20px; color: var(--secondary);">Try it out!</h2>
+        <p>Click the button to change this text:</p>
+        <p id="demo-text" style="margin: 15px 0; font-weight: bold;">Hello, World!</p>
+        <button id="change-text-btn" style="background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+          Change Text
+        </button>
+      </div>
+    </main>
+    
+    <footer>
+      <p>&copy; 2023 Web IDE. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Simple interactive functionality for the demo
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('change-text-btn');
+      const text = document.getElementById('demo-text');
+      const phrases = [
+        'Hello, World!',
+        'Web IDE is awesome!',
+        'Try our HTML preview!',
+        'Edit code in the browser!',
+        'Powered by React & TypeScript!'
+      ];
+      let currentIndex = 0;
+      
+      btn.addEventListener('click', function() {
+        currentIndex = (currentIndex + 1) % phrases.length;
+        text.textContent = phrases[currentIndex];
+        
+        // Add a fun color change too
+        text.style.color = getRandomColor();
+      });
+      
+      function getRandomColor() {
+        const colors = ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f1c40f', '#1abc9c'];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+    });
+  </script>
+</body>
+</html> 

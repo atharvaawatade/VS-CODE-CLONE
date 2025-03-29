@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Demo Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to My Interactive Page</h1>
+      <p class="subtitle">This is a demo of HTML, CSS and JavaScript integration</p>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="home">
+        <h2>Interactive Elements</h2>
+        
+        <div class="card">
+          <h3>Counter Demo</h3>
+          <p>Click the buttons to increase or decrease the counter:</p>
+          <div class="counter-container">
+            <button id="decrementBtn">-</button>
+            <span id="counterValue">0</span>
+            <button id="incrementBtn">+</button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>Form Demo</h3>
+          <form id="demoForm">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+              <label for="message">Message:</label>
+              <textarea id="message" placeholder="Type your message"></textarea>
+            </div>
+            <button type="submit" id="submitBtn">Submit</button>
+          </form>
+          <div id="formResponse" class="hidden"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3>Recent Updates</h3>
+        <ul id="updates">
+          <li>Feature X launched</li>
+          <li>New design implemented</li>
+          <li>Mobile support added</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Quick Stats</h3>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-value">250+</span>
+            <span class="stat-label">Users</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">15k</span>
+            <span class="stat-label">Downloads</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">95%</span>
+            <span class="stat-label">Satisfaction</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <footer>
+      <p>&copy; 2023 Interactive Demo. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#" title="Twitter">Twitter</a>
+        <a href="#" title="GitHub">GitHub</a>
+        <a href="#" title="LinkedIn">LinkedIn</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html> 
