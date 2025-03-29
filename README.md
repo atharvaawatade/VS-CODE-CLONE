@@ -2,7 +2,14 @@
 
 A fully functional browser-based code editor inspired by Visual Studio Code with AI assistance powered by Google Gemini.
 
-![VS Code Clone Preview](screenshot.png)
+![image](https://github.com/user-attachments/assets/aaeb07c4-48f7-486b-82b4-553425a3120b)
+![image](https://github.com/user-attachments/assets/6ad1ad0b-9b42-4374-97b3-70ab0f540d96)
+![image](https://github.com/user-attachments/assets/02a98322-7648-4eb7-b26c-a5bf65e60a9c)
+![image](https://github.com/user-attachments/assets/623ae5df-4b69-418d-9b43-576e657f0c90)
+
+
+
+
 
 ## ✨ Features
 
