@@ -58,7 +58,7 @@ A fully functional browser-based code editor inspired by Visual Studio Code with
 
 ## 🚀 Live Demo
 
-[View Live Demo]([https://vs-code-clone.vercel.app](https://vs-code-clone-atharvaawatades-projects.vercel.app/))
+[View Live Demo](https://vs-code-clone-atharvaawatades-projects.vercel.app/)
 
 ## 🛠️ Technical Implementation
 
