@@ -1,19 +1,11 @@
 {
-  "buildCommand": "vite build",
-  "devCommand": "vite",
-  "installCommand": "npm install",
   "framework": "vite",
-  "outputDirectory": "dist",
   "routes": [
     {
-      "src": "/[^.]+",
-      "dest": "/",
-      "status": 200
+      "src": "/(.*)",
+      "dest": "/"
     }
   ],
-  "github": {
-    "silent": true
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -41,11 +33,5 @@
         }
       ]
     }
-  ],
-  "buildOutputs": "$(pwd)/dist",
-  "git": {
-    "deploymentEnabled": {
-      "main": true
-    }
-  }
-} 
+  ]
+}
