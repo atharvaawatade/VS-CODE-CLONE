@@ -1,7 +1,7 @@
 # VS-CODE-CLONE
 
-A fully functional browser-based code editor inspired by Visual Studio Code with AI assistance powered by Google Gemini.
-
+A fully functional UI for browser-based code editor inspired by Visual Studio Code with AI assistance powered by Google Gemini.
+![image](https://github.com/user-attachments/assets/d5c98696-1c7d-4b78-bdb1-a2faf62532f4)
 
 
 
