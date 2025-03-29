@@ -227,10 +227,6 @@ const ChatInterface: React.FC = () => {
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setInput(suggestion);
-    textareaRef.current?.focus();
-  };
 
   const toggleMessageExpand = (id: string) => {
     if (expandedMessageId === id) {
@@ -241,37 +237,26 @@ const ChatInterface: React.FC = () => {
   };
 
   const toggleMaximize = () => {
-    // Create animation effect when maximizing/minimizing
-    const chatElement = document.querySelector('.chat-container') as HTMLElement;
-    if (chatElement) {
-      chatElement.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      
-      if (!isMaximized) {
-        // Save current dimensions before maximizing
-        chatElement.dataset.width = chatElement.offsetWidth + 'px';
-        chatElement.dataset.height = chatElement.offsetHeight + 'px';
-        
-        // Expand animation
-        chatElement.style.transform = 'scale(0.95)';
-        chatElement.style.opacity = '0.9';
-        
+    // Add scale animation when toggling maximize
+    const chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+      chatContainer.classList.add('scale-transition');
+      setTimeout(() => {
+        setIsMaximized(!isMaximized);
         setTimeout(() => {
-          chatElement.style.transform = 'scale(1)';
-          chatElement.style.opacity = '1';
-        }, 50);
-      } else {
-        // Shrink animation
-        chatElement.style.transform = 'scale(1.02)';
-        chatElement.style.opacity = '0.9';
-        
-        setTimeout(() => {
-          chatElement.style.transform = 'scale(1)';
-          chatElement.style.opacity = '1';
-        }, 50);
-      }
+          chatContainer.classList.remove('scale-transition');
+        }, 300);
+      }, 50);
+    } else {
+      setIsMaximized(!isMaximized);
     }
     
-    setIsMaximized(!isMaximized);
+    // Focus input after maximizing
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    }, 300);
   };
 
   // Enhanced Siri animation for chat
@@ -449,7 +434,7 @@ const ChatInterface: React.FC = () => {
   }
 
   return (
-    <div className={`chat-container flex flex-col bg-[#1E1E1E] border-l border-gray-700 relative ${isMaximized ? 'fixed inset-0 z-50' : 'h-full w-[350px]'}`}>
+    <div className={`chat-container flex flex-col bg-[#1E1E1E] border-l border-gray-700 relative transition-all duration-300 ease-in-out ${isMaximized ? 'fixed inset-0 z-50' : 'h-full md:w-[350px] w-full sm:w-[300px]'}`}>
       {/* Enhanced header with modern design and effects */}
       <div className="p-3 bg-gradient-to-r from-[#0078D4] via-[#0a6fbe] to-[#2b5797] border-b border-gray-700 flex justify-between items-center relative overflow-hidden">
         <div className="absolute -left-10 -top-10 w-24 h-24 bg-white rounded-full opacity-10 blur-lg"></div>
@@ -487,16 +472,16 @@ const ChatInterface: React.FC = () => {
             {isMaximized ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
           <button
-            onClick={handleSiriButtonClick}
-            title="Close chat"
-            className="p-1.5 hover:bg-white/10 rounded text-white/90 hover:text-white transition-colors"
+            onClick={toggleChat}
+            title="Minimize chat"
+            className="p-1.5 hover:bg-white/10 rounded text-white/90 hover:text-white transition-colors minimize-button"
           >
             <ChevronDown className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#1E1E1E] bg-opacity-80 backdrop-blur">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#1E1E1E] bg-opacity-80 backdrop-blur scrollbar-thin">
         {messages.length === 0 ? (
           <div className="text-center text-gray-300 py-6">
             {/* Enhanced welcome screen with visual effects */}
@@ -685,56 +670,82 @@ const ChatInterface: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Content-aware suggestions */}
-      {suggestions.length > 0 && !isLoading && (
-        <div className="px-4 py-2 border-t border-gray-800 bg-[#252526]">
-          <p className="text-xs text-gray-400 mb-2">Suggestions:</p>
-          <div className="flex flex-wrap gap-2">
-            {suggestions.map((suggestion, index) => (
+      {/* Input area with enhanced styling and animations */}
+      <div className="p-3 border-t border-gray-700 bg-[#252526]">
+        {suggestions.length > 0 && !isLoading && messages.length === 0 && (
+          <div className="mb-2 flex flex-wrap gap-1.5 animate-fadeIn">
+            {suggestions.slice(0, isMaximized ? 6 : 3).map((suggestion, i) => (
               <button
-                key={index}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="px-2.5 py-1.5 text-xs font-medium bg-[#323233] text-blue-400 rounded-full hover:bg-[#3E3E40] transition-colors border border-gray-700 hover:border-blue-800 hover:text-blue-300 truncate max-w-[150px] flex items-center"
+                key={i}
+                className="text-xs bg-[#2D2D2D] hover:bg-[#3E3E3E] text-gray-300 px-2 py-1 rounded transition-colors truncate max-w-[150px]"
+                onClick={() => {
+                  setInput(suggestion);
+                  if (textareaRef.current) {
+                    textareaRef.current.focus();
+                  }
+                }}
               >
-                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1.5"></span>
                 {suggestion}
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Enhanced input with better design */}
-      <form onSubmit={handleSubmit} className="border-t border-gray-700 p-3 bg-[#1E1E1E]">
-        <div className="relative">
-          <textarea
-            placeholder="Ask about your code..."
-            className="w-full bg-[#2D2D2D] text-sm text-gray-200 p-3 pr-12 rounded-lg border border-gray-700 resize-none focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-150 min-h-[50px] max-h-[150px]"
-            rows={1}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            ref={textareaRef}
-          />
+        <form onSubmit={handleSubmit} className="flex items-end space-x-2">
+          <div className="relative flex-1 group">
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder="Ask me anything about your code..."
+              className="w-full border border-gray-700 focus:border-blue-500 bg-[#1E1E1E] rounded p-3 pr-10 text-sm text-gray-200 outline-none resize-none min-h-[44px] max-h-[120px] transition-all duration-200 placeholder-gray-500"
+              style={{ height: input.length > 100 ? '80px' : '44px' }}
+              disabled={isLoading}
+            />
+            <div className="absolute bottom-2 right-2 flex space-x-1">
+              {input && (
+                <button
+                  type="button"
+                  onClick={() => setInput('')}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <ChevronUp className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
           <button
-            className={`absolute right-2 bottom-2 p-2 rounded-full ${
-              input.trim() 
-                ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-md' 
-                : 'bg-gray-700 cursor-not-allowed'
-            } transition-all duration-150`}
-            disabled={!input.trim() || isLoading}
             type="submit"
+            className={`p-3 rounded-full ${
+              isLoading
+                ? 'bg-gray-700 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-500'
+            } text-white transition-colors flex items-center justify-center relative group overflow-hidden`}
+            disabled={isLoading}
           >
             {isLoading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="flex items-center justify-center h-5 w-5 relative">
+                <div className="absolute inset-0 border-2 border-transparent border-t-white border-l-white rounded-full animate-spin"></div>
+                <div className="absolute inset-1 border border-transparent border-t-white border-l-white rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '0.6s' }}></div>
+              </div>
             ) : (
-              <Send className="w-4 h-4 text-white" />
+              <Send className="w-5 h-5 group-hover:scale-110 transition-transform" />
             )}
+            <div className="absolute inset-0 bg-white/20 transform scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 rounded-full transition-all duration-300"></div>
           </button>
-        </div>
-      </form>
-      
-      {/* Add global styles for animations */}
+        </form>
+        
+        {activeTab && (
+          <div className="mt-2 flex items-center text-xs text-gray-500 animate-fadeIn">
+            <FileCode className="w-3 h-3 mr-1" />
+            <span className="truncate max-w-[250px]">
+              {tabs.find(tab => tab.id === activeTab)?.filename || 'No file open'}
+            </span>
+          </div>
+        )}
+      </div>
+
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
@@ -766,6 +777,78 @@ const ChatInterface: React.FC = () => {
         
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
+        }
+        
+        .scale-transition {
+          transform: scale(0.95);
+          opacity: 0.8;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        /* Custom scrollbar styling */
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: #1E1E1E;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background-color: #3E3E3E;
+          border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background-color: #4E4E4E;
+        }
+        
+        /* Add ripple effect to minimize button */
+        .minimize-button {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .minimize-button::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.7);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%, -50%);
+          transform-origin: 50% 50%;
+        }
+        
+        .minimize-button:focus:not(:active)::after {
+          animation: ripple 0.5s ease-out;
+        }
+        
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+        
+        /* Media queries for better responsiveness */
+        @media (max-width: 640px) {
+          .chat-container:not(.fixed) {
+            width: 100% !important;
+            height: 50vh !important;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+          }
         }
       `}} />
     </div>
