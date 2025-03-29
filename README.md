@@ -1,6 +1,6 @@
 # VS-CODE-CLONE
 
-## A fully functional UI for browser-based code editor inspired by Visual Studio Code with AI assistance powered by Google Gemini.
+### A fully functional UI for browser-based code editor inspired by Visual Studio Code with AI assistance powered by Google Gemini.
 ![Blue Modern Mobile Application Presentation](https://github.com/user-attachments/assets/f6f708b9-2c16-458c-b003-276020153589)
 
 ![Blue Modern Mobile Application Presentation (1)](https://github.com/user-attachments/assets/a124c5d4-d2b8-4bba-9442-17eb29fe07a0)
